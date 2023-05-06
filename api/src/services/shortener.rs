@@ -40,7 +40,10 @@ impl ShortenerService {
         match url {
             Ok(Some(row)) => Ok(Some(row.get("url"))),
             Ok(None) => Ok(None),
-            Err(e) => Err(e),
+            Err(e) => {
+                tracing::error!("Database error for id '{id}': {:?}", e);
+                Err(e)
+            }
         }
     }
 
@@ -77,7 +80,10 @@ impl ShortenerService {
             .await
         {
             Ok(_) => Ok(id),
-            Err(e) => Err(ShortenError::DatabaseError(e)),
+            Err(e) => {
+                tracing::error!("Database error for url '{url}': {:?}", e);
+                Err(ShortenError::DatabaseError(e))
+            }
         }
     }
 }
