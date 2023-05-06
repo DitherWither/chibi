@@ -6,9 +6,7 @@ use crate::services::shortener;
 use std::path::PathBuf;
 
 use anyhow::Result;
-use poem::{
-    endpoint::StaticFilesEndpoint, handler, middleware::AddData, web::Html, EndpointExt, Route,
-};
+use poem::{endpoint::StaticFilesEndpoint, middleware::AddData, EndpointExt, Route};
 use poem_openapi::OpenApiService;
 use shuttle_poem::ShuttlePoem;
 use shuttle_service::CustomError;
@@ -44,7 +42,7 @@ async fn poem(
 
     let app = Route::new()
         // Static files
-        .nest("/", static_files) 
+        .nest("/", static_files)
         // API
         .nest("/u", api_service)
         .nest("/u/docs", ui)

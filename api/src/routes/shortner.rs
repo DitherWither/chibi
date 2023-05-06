@@ -4,7 +4,6 @@ use poem_openapi::{
     payload::{Form, PlainText},
     ApiResponse, Object, OpenApi,
 };
-use sqlx::PgPool;
 
 use crate::{services::shortener::ShortenError, services::shortener::ShortenerService};
 
