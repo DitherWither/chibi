@@ -30,7 +30,7 @@ enum ShortenResponse {
     /// ```text/plain
     /// https://chibi.shuttleapp.rs/3n4j5d
     /// # OR
-    /// https://chibi.shuttleapp.rs/api/3n4j5d
+    /// https://chibi.shuttleapp.rs/u/3n4j5d
     /// ```
     #[oai(status = 200)]
     Success(PlainText<String>),
@@ -78,12 +78,12 @@ impl Api {
     ///
     /// # Example
     ///
-    /// To create a shortened url for `https://google.com/`, you would send a POST request to `/api/` with
+    /// To create a shortened url for `https://google.com/`, you would send a POST request to `/u/` with
     /// the body as `url=https://google.com/`.
     ///
     /// ```bash
     /// curl -X 'POST' \
-    ///     'https://chibi.shuttleapp.rs/api/' \
+    ///     'https://chibi.shuttleapp.rs/u/' \
     ///     -H 'accept: text/plain; charset=utf-8' \
     ///     -H 'Content-Type: text/plain; charset=utf-8' \
     ///     -d 'url=https://google.com/'
@@ -106,7 +106,7 @@ impl Api {
     /// URL that redirects to the original URL:
     ///
     /// ```
-    /// https://chibi.shuttleapp.rs/hREKMY
+    /// https://chibi.shuttleapp.rs/u/hREKMY
     /// ```
     ///
     ///
@@ -125,22 +125,15 @@ impl Api {
         }
     }
 
-    /// Redirect to a url. A similar route is available at `/{id}`, without the `/api` prefix.
-    ///
-    /// The route at `/{id}`(without the `/api` prefix) is used for redirecting to the original url, however, that route
-    /// is not documented in the OpenAPI spec, and returns less information on errors.
-    ///
-    /// This route is documented in the OpenAPI spec, and returns more information on errors.
-    ///
-    /// You should use the route at `/{id}`(without the `/api` prefix) on the client side, as it is shorter.
+    /// Redirect to a url.
     ///
     /// # Example
     ///
-    /// To redirect to the url with id `hREKMY`, you would send a GET request to `/api/hREKMY` or `/hREKMY/`.
+    /// To redirect to the url with id `hREKMY`, you would send a GET request to `/u/hREKMY`
     ///
     /// ```bash
     /// curl -X 'GET' \
-    ///     'https://chibi.shuttleapp.rs/api/hREKMY' \
+    ///     'https://chibi.shuttleapp.rs/u/hREKMY' \
     ///     -H 'accept: */*'
     /// ```
     ///
