@@ -7,13 +7,28 @@ import Layout from "../layouts/Layout.astro";
   title="Chibi URL Shortener"
   description="Chibi is a simple URL shortener, and an api that helps you shorten urls"
 >
-  <div class="text-center">
+  <header class="text-center">
     <h1 class="text-9xl font-bold text-violet-500">Chibi URL</h1>
 
     <p class="text-xl">
       Chibi is a simple URL shortener, and an api that helps you shorten urls
     </p>
-  </div>
-
-  <ShortenForm />
+  </header>
+  <main>
+	  <ShortenForm />
+  </main>
+  <footer>
+    <div class="text-center">
+      <a href="/u/docs" class="underline"> API Docs</a>
+      <span>|</span>
+      <a href="https://github.com/DitherWither/chibi" class="underline"
+        >Source Code</a
+      >
+    </div>
+    <p class="text-center">
+      Made by <a href="https://ditherwither.github.io/" class="underline"
+        >Vardhan Patil (DitherWither)</a
+      >
+    </p>
+  </footer>
 </Layout>

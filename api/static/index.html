@@ -7,29 +7,40 @@
     <meta name="generator" content="Astro v2.4.2">
     <title>Chibi URL Shortener</title>
     <meta name="description" content="Chibi is a simple URL shortener, and an api that helps you shorten urls">
-  <link rel="stylesheet" href="/_astro/index.03dd5403.css" /><script type="module">const r=document.querySelector("input[name=url]"),n=document.querySelector("#shortened-url-display");function o(){return r?.value??""}async function s(e){return`https://chibi.shuttleapp.rs/u/${await(await fetch("/u/",{method:"POST",headers:{"Content-Type":"application/x-www-form-urlencoded;charset=UTF-8"},body:`url=${encodeURIComponent(e)}`})).text()}`}document.getElementById("shorten-button")?.addEventListener("click",async e=>{e.preventDefault();const t=await s(o());n&&(n.classList.remove("hidden"),n.innerHTML=`Your shortened url is at: <a href="${t}" class="underline" target="_blank">${t}</a>`)});
+  <link rel="stylesheet" href="/_astro/index.95feb728.css" /><script type="module">const r=document.querySelector("input[name=url]"),n=document.querySelector("#shortened-url-display");function o(){return r?.value??""}async function s(e){return`https://chibi.shuttleapp.rs/u/${await(await fetch("/u/",{method:"POST",headers:{"Content-Type":"application/x-www-form-urlencoded;charset=UTF-8"},body:`url=${encodeURIComponent(e)}`})).text()}`}document.getElementById("shorten-button")?.addEventListener("click",async e=>{e.preventDefault();const t=await s(o());n&&(n.classList.remove("hidden"),n.innerHTML=`Your shortened url is at: <a href="${t}" class="underline" target="_blank">${t}</a>`)});
 </script></head>
   <body class="bg-fuchsia-200 text-cyan-600 flex justify-center items-center min-h-screen">
-	<div>
-		
-  <div class="text-center">
+    <div>
+      
+  <header class="text-center">
     <h1 class="text-9xl font-bold text-violet-500">Chibi URL</h1>
 
     <p class="text-xl">
       Chibi is a simple URL shortener, and an api that helps you shorten urls
     </p>
-  </div>
-
-  <div class="flex justify-center m-5">
+  </header>
+  <main>
+	  <div class="flex justify-center m-5">
   <form action="/u/" method="post" class="flex flex-row">
-    <input type="url" name="url" placeholder="https://example.com" class="p-2 rounded-l-xl">
-    <button type="submit" class="bg-violet-500 text-fuchsia-200 rounded-r-xl p-2 font-bold text-xl" id="shorten-button">Shorten</button>
+    <input type="url" name="url" placeholder="https://example.com" class="p-4 rounded-l-xl">
+    <button type="submit" class="bg-violet-500 text-fuchsia-200 rounded-r-xl p-4 font-bold text-xl" id="shorten-button">Shorten</button>
   </form>
 </div>
 
 <h3 class="hidden text-3xl" id="shortened-url-display">
   You shouldn't be seeing this. If you are, please create an issue at <a href="https://github.com/DitherWither/chibi" class="underline">My github repo</a>
 </h3>
+  </main>
+  <footer>
+    <div class="text-center">
+      <a href="/u/docs" class="underline"> API Docs</a>
+      <span>|</span>
+      <a href="https://github.com/DitherWither/chibi" class="underline">Source Code</a>
+    </div>
+    <p class="text-center">
+      Made by <a href="https://ditherwither.github.io/" class="underline">Vardhan Patil (DitherWither)</a>
+    </p>
+  </footer>
 
-	</div>
+    </div>
   </body></html>
