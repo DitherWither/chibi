@@ -28,8 +28,6 @@ enum ShortenResponse {
     /// To make this into a Url, you need to prepend the domain name like this:
     ///
     /// ```text/plain
-    /// https://chibi.shuttleapp.rs/3n4j5d
-    /// # OR
     /// https://chibi.shuttleapp.rs/u/3n4j5d
     /// ```
     #[oai(status = 200)]
@@ -84,8 +82,7 @@ impl Api {
     /// ```bash
     /// curl -X 'POST' \
     ///     'https://chibi.shuttleapp.rs/u/' \
-    ///     -H 'accept: text/plain; charset=utf-8' \
-    ///     -H 'Content-Type: text/plain; charset=utf-8' \
+    ///     -H 'Content-Type: application/x-www-form-urlencoded; charset=utf-8' \
     ///     -d 'url=https://google.com/'
     /// ```
     ///
