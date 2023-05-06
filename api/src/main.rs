@@ -30,10 +30,6 @@ async fn init_db(pool: &PgPool) -> Result<()> {
     Ok(())
 }
 
-#[handler]
-async fn index() -> Html<&'static str> {
-    Html(include_str!("../../dist/index.html"))
-}
 
 #[shuttle_runtime::main]
 async fn poem(
