@@ -1,0 +1,21 @@
+---
+import Layout from "../layouts/Layout.astro";
+---
+
+<Layout
+  title="Chibi URL Shortener"
+  description="Chibi is a simple URL shortener, and an api that helps you shorten urls"
+>
+	<div class="text-center">
+		<h1 class="text-9xl font-bold text-violet-500">Chibi URL</h1>
+
+		<p class="text-xl">Chibi is a simple URL shortener, and an api that helps you shorten urls</p>
+	</div>
+
+	<div class="flex justify-center m-5">
+		<form action="/u/" method="post" class="flex flex-row">
+			<input type="url" name="url" placeholder="https://example.com" class="p-2 rounded-l-xl" />
+			<button type="submit" class="bg-violet-500 text-fuchsia-200 rounded-r-xl p-2 font-bold text-xl">Shorten</button>
+		</form>
+	</div>
+</Layout>
