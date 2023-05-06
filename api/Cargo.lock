@@ -298,8 +298,10 @@ dependencies = [
  "shuttle-shared-db",
  "shuttle-static-folder",
  "sqlx",
+ "thiserror",
  "tokio",
  "tracing",
+ "url",
 ]
 
 [[package]]

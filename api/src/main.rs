@@ -7,11 +7,7 @@ use std::path::PathBuf;
 
 use anyhow::Result;
 use poem::{
-    endpoint::StaticFilesEndpoint,
-    handler,
-    middleware::AddData,
-    web::Html,
-    EndpointExt, Route,
+    endpoint::StaticFilesEndpoint, handler, middleware::AddData, web::Html, EndpointExt, Route,
 };
 use poem_openapi::OpenApiService;
 use shuttle_poem::ShuttlePoem;
@@ -30,7 +26,6 @@ async fn init_db(pool: &PgPool) -> Result<()> {
     Ok(())
 }
 
-
 #[shuttle_runtime::main]
 async fn poem(
     #[shuttle_shared_db::Postgres] pool: PgPool,
@@ -45,14 +40,16 @@ async fn poem(
         OpenApiService::new(routes::ShortnerApi, "Shortener API", "0.1.0").server("/u");
     let ui = api_service.swagger_ui();
 
+    let shortener_service = shortener::ShortenerService::new(pool.clone());
+
     let app = Route::new()
         // Static files
-        .nest("/", static_files)
+        .nest("/", static_files) 
         // API
         .nest("/u", api_service)
         .nest("/u/docs", ui)
         // Database
-        .with(AddData::new(pool));
+        .with(AddData::new(shortener_service));
 
     Ok(app.into())
 }
