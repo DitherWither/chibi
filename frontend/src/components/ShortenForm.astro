@@ -1,0 +1,62 @@
+---
+---
+
+<div class="flex justify-center m-5">
+  <form action="/u/" method="post" class="flex flex-row">
+    <input
+      type="url"
+      name="url"
+      placeholder="https://example.com"
+      class="p-2 rounded-l-xl"
+    />
+    <button
+      type="submit"
+      class="bg-violet-500 text-fuchsia-200 rounded-r-xl p-2 font-bold text-xl"
+      id="shorten-button">Shorten</button
+    >
+  </form>
+</div>
+
+<h3 class="hidden text-3xl" id="shortened-url-display">
+  You shouldn't be seeing this. If you are, please create an issue at <a
+    href="https://github.com/DitherWither/chibi"
+    class="underline">My github repo</a
+  >
+</h3>
+
+<script>
+  const urlInput: HTMLInputElement | null =
+    document.querySelector("input[name=url]");
+
+  const shortendedUrlDisplay: HTMLHeadingElement | null =
+    document.querySelector("#shortened-url-display");
+
+  function getUrl(): string {
+    return urlInput?.value ?? "";
+  }
+
+  async function shortenUrl(url: string): Promise<string> {
+    // Post the url to the server
+    const response = await fetch("/u/", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
+      },
+      body: `url=${encodeURIComponent(url)}`,
+    });
+    return `https://chibi.shuttleapp.rs/u/${await response.text()}`;
+  }
+
+  document
+    .getElementById("shorten-button")
+    ?.addEventListener("click", async (event) => {
+      event.preventDefault();
+      const shortened_url = await shortenUrl(getUrl());
+
+      // Show the shortened url
+      if (shortendedUrlDisplay) {
+        shortendedUrlDisplay.classList.remove("hidden");
+        shortendedUrlDisplay.innerHTML = `Your shortened url is at: <a href="${shortened_url}" class="underline" target="_blank">${shortened_url}</a>`;
+      }
+    });
+</script>
