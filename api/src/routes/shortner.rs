@@ -1,8 +1,12 @@
 use poem::web::Data;
-use poem_openapi::{param::Path, payload::{PlainText, Form}, ApiResponse, OpenApi, Object};
+use poem_openapi::{
+    param::Path,
+    payload::{Form, PlainText},
+    ApiResponse, Object, OpenApi,
+};
 use sqlx::PgPool;
 
-use crate::shortener::{redirect, shorten};
+use crate::{services::shortener::ShortenError, services::shortener::ShortenerService};
 
 #[derive(serde::Deserialize, Object, Debug)]
 struct ShortenRequest {
@@ -37,6 +41,12 @@ enum ShortenResponse {
     /// More information about the error is included in the response body.
     #[oai(status = 500)]
     DBError(PlainText<String>),
+
+    /// The url was invalid.
+    ///
+    /// This is returned when the url is not a valid url.
+    #[oai(status = 400)]
+    InvalidUrl,
 }
 
 /// Response for the redirect route.
@@ -69,7 +79,7 @@ impl Api {
     ///
     /// # Example
     ///
-    /// To create a shortened url for `https://google.com/`, you would send a POST request to `/api/` with 
+    /// To create a shortened url for `https://google.com/`, you would send a POST request to `/api/` with
     /// the body as `url=https://google.com/`.
     ///
     /// ```bash
@@ -102,12 +112,17 @@ impl Api {
     ///
     ///
     #[oai(path = "/", method = "post")]
-    async fn shorten(&self, form: Form<ShortenRequest>, db: Data<&PgPool>) -> ShortenResponse {
-        match shorten(form.0.url, db.0).await {
+    async fn shorten(
+        &self,
+        form: Form<ShortenRequest>,
+        shortener_service: Data<&ShortenerService>,
+    ) -> ShortenResponse {
+        match shortener_service.shorten(&form.url).await {
             Ok(id) => ShortenResponse::Success(PlainText(id)),
-            Err(e) => {
-                ShortenResponse::DBError(PlainText(format!("Database error: {}", e.to_string())))
+            Err(ShortenError::DatabaseError(e)) => {
+                ShortenResponse::DBError(PlainText(e.to_string()))
             }
+            Err(ShortenError::InvalidUrl) => ShortenResponse::InvalidUrl,
         }
     }
 
@@ -137,9 +152,9 @@ impl Api {
         &self,
         /// The id of the url to redirect to.
         id: Path<String>,
-        db: Data<&PgPool>,
+        shortener_service: Data<&ShortenerService>,
     ) -> RedirectResponse {
-        match redirect(id.0, db.0).await {
+        match shortener_service.redirect(&id.0).await {
             Ok(Some(url)) => RedirectResponse::Success(url),
             Ok(None) => RedirectResponse::NotFound,
             Err(e) => {
