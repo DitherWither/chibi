@@ -34,7 +34,7 @@ async fn init_db(pool: &PgPool) -> Result<()> {
 #[shuttle_runtime::main]
 async fn poem(
     #[shuttle_shared_db::Postgres] pool: PgPool,
-    #[shuttle_static_folder::StaticFolder(folder = "dist")] static_folder: PathBuf,
+    #[shuttle_static_folder::StaticFolder] static_folder: PathBuf,
 ) -> ShuttlePoem<impl poem::Endpoint> {
     init_db(&pool).await?;
 
